@@ -1,0 +1,38 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+<ion-list *ngFor="let data of datas">
+  <ion-card>
+    <div *ngFor="let thumbnail of data._embedded['wp:featuredmedia']">
+      <img [src]="thumbnail.source_url"/>
+    </div>
+    <ion-card-content>
+      <ion-card-title>{{data.title.rendered}}</ion-card-title>
+      <div [innerHTML]="data.excerpt.rendered">
+        {{data.excerpt.rendered}}
+      </div>
+    </ion-card-content>
+    <button
+    ion-button full color="primary"
+    *ngFor="let link of data._links.self"
+    (click)="openSingle(link.href, data.title.rendered)"
+    >LES MER</button>
+  </ion-card>
+</ion-list>
+
+<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll-content></ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+</ion-content>

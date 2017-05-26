@@ -1,0 +1,49 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Details</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-segment padding [(ngModel)]="segment">
+    <ion-segment-button value="posts">POSTS</ion-segment-button>
+      <ion-segment-button value="comment">COMMENTS</ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="segment">
+    <ion-card *ngSwitchCase="'posts'">
+      <div *ngFor="let data of datas">
+        <div *ngFor="let thumbnail of data._embedded['wp:featuredmedia']">
+          <img [src]="thumbnail.source_url"/>
+        </div>
+        <ion-card-content>
+          <ion-card-title>{{data.title.rendered}}</ion-card-title>
+          <div [innerHTML]="data.content.rendered">
+            {{data.content.rendered}}
+          </div>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+    <ion-card *ngSwitchCase="'comment'">
+      <div *ngFor="let comment of comments">
+
+          <ion-item>
+          <h2 item-left>{{comment.author_name}}</h2>
+          <p item-right>
+            {{comment.date | date: 'dd/MM/yyyy'}}
+          </p>
+        </ion-item>
+        <ion-card-content>
+          <div [innerHTML]="comment.content.rendered">
+            {{comment.content.rendered}}
+          </div>
+        </ion-card-content>
+      </div>
+    </ion-card>
+</div>
+</ion-content>
